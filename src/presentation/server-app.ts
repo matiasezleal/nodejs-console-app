@@ -6,8 +6,8 @@ interface RunOptions {
     base:number;
     limit:number;
     showTable:boolean;
-    fileName?:string;
-    fileDestination?:string;
+    fileName:string;
+    fileDestination:string;
 }
 
 
