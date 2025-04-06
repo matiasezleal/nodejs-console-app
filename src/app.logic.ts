@@ -1,3 +1,6 @@
+
+/** DEPREDATED -- this was refactorized **/
+
 import fs from 'fs';
 import {yarg} from "./config/plugins/args.plugin";
 
