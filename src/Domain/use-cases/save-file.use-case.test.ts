@@ -4,7 +4,11 @@ import fs from "fs";
 
 describe('SaveFile', () => {
 
-
+    const testOptions= {
+        fileContent: 'my custom content',
+        fileDestination: 'cs-02',
+        fileName: 'cs2-test',
+    }
     afterEach(()=>{
 
         /* we delete de defaul folder*/
@@ -45,5 +49,37 @@ describe('SaveFile', () => {
         const fileContentResult = fs.readFileSync(`${options.fileDestination}/${options.fileName}.txt`,{encoding:'utf8'});
         expect(fileContentResult).toContain(options.fileContent);
 
-    })
-})
+    });
+
+    test('CS-03 Should return false if dir creation failed', () => {
+        const saveFile = new SaveFile();
+
+        /* Mock */
+        const mkdirSpy = jest.spyOn(fs,'mkdirSync')
+            .mockImplementationOnce(
+                ()=>{throw  new Error('Could not create directory');}
+            );
+        /* Act */
+
+        const result = saveFile.execute(testOptions);
+        expect(result).toBeFalsy();
+
+        mkdirSpy.mockRestore();
+    });
+
+    test('CS-04 Should return false if file creation failed', () => {
+        const saveFile = new SaveFile();
+
+        /* Mock */
+        const writeFileSpy = jest.spyOn(fs,'writeFileSync')
+            .mockImplementationOnce(
+                ()=>{throw  new Error('Could not create directory');}
+            );
+        /* Act */
+
+        const result = saveFile.execute(testOptions);
+        expect(result).toBeFalsy();
+
+        writeFileSpy.mockRestore();
+    });
+});
